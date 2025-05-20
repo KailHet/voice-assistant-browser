@@ -1,0 +1,72 @@
+{
+    "mainWord": "джарвис",
+    "apps": {
+        "telegram": "C:\\Users\\KailH\\AppData\\Roaming\\Telegram Desktop\\Telegram.exe",
+        "notepad": "C:\\Windows\\System32\\notepad.exe",
+        "ym": "C:\\Users\\KailH\\AppData\\Local\\Programs\\YandexMusic\\Яндекс Музыка.exe",
+        "taskmgr": "C:\\WINDOWS\\system32\\Taskmgr.exe",
+        "discord": "C:\\Users\\KailH\\AppData\\Local\\Discord\\Update.exe"
+    },
+    "phrases": [
+        {
+            "action": "app",
+            "data": "telegram",
+            "mainTrigger": [
+                "открой",
+                "открою",
+                "откроет",
+                "запусти"
+            ],
+            "secondTrigger": [
+                "телеграм",
+                "telegram"
+            ]
+        },
+        {
+            "action": "app",
+            "data": "notepad",
+            "mainTrigger": [
+                "открой",
+                "открою",
+                "откроет",
+                "запусти"
+            ],
+            "secondTrigger": [
+                "блокнот",
+                "notepad"
+            ]
+        },
+        {
+            "action": "app",
+            "data": "ym",
+            "mainTrigger": [
+                "открой",
+                "открою",
+                "откроет",
+                "запусти"
+            ],
+            "secondTrigger": [
+                "яндекс.музыка",
+                "яндекс музыка",
+                "яндексмузыка",
+                "яндексмузыку",
+                "яндекс.музыку",
+                "яндекс музыку"
+            ]
+        },
+        {
+            "action": "app",
+            "data": "taskmgr",
+            "mainTrigger": [
+                "открой",
+                "открою",
+                "откроет",
+                "запусти"
+            ],
+            "secondTrigger": [
+                "диспетчер задач",
+                "диспетчерзадач"
+            ]
+        }
+    ]
+}

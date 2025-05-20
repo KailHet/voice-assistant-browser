@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    
+    <meta charset="UTF-8">
+    <title>Voice Assistant</title>
+    <link rel="shortcut icon" href="/icons/glass.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+    <div class="cl-toggle-switch">
+        <label class="cl-switch">
+            <input type="checkbox" id="tts">
+            <span>Озвучивать текст ассистента</span>
+        </label>
+        <div id="tts-settings">
+            <div>
+                <span>Голос ассистента</span>
+                <select id="voices" class="form-select"></select>
+            </div>
+            <div class="d-flex mt-4">
+                <div>
+                    <p class="lead">Громкость</p>
+                    <input type="range" min="0" max="1" value="1" step="0.1" id="volume" />
+                    <span id="volume-label" class="ms-2">1</span>
+                </div>
+                <div class="mx-5">
+                    <p class="lead">Скорость</p>
+                    <input type="range" min="0.1" max="10" value="1" id="rate" step="0.1" />
+                    <span id="rate-label" class="ms-2">1</span>
+                </div>
+                <div>
+                    <p class="lead">Подача</p>
+                    <input type="range" min="0" max="1" value="1" step="0.1" id="pitch" />
+                    <span id="pitch-label" class="ms-2">1</span>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    <h1>Голосовой ассистент</h1>
+    <div id="status">Инициализация...</div>
+    <br>
+    <div>
+        <span class="userName">Вы</span>
+        <br>
+        <br>
+        <br>
+        <span id="transcript">...</span>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div>
+        <span class="userName">Ответ ассистента</span>
+        <br>
+        <span id="answer"></span>
+    </div>
+
+    <script>
+        async function init() {
+            const model = await Vosk.createModel('model.tar.gz');
+
+            const recognizer = new model.KaldiRecognizer();
+            recognizer.on("result", (message) => {
+                console.log(`Result: ${message.result.text}`);
+            });
+            recognizer.on("partialresult", (message) => {
+                console.log(`Partial result: ${message.result.partial}`);
+            });
+            
+            const mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: false,
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    channelCount: 1,
+                    sampleRate: 16000
+                },
+            });
+            
+            const audioContext = new AudioContext();
+            const recognizerNode = audioContext.createScriptProcessor(4096, 1, 1)
+            recognizerNode.onaudioprocess = (event) => {
+                try {
+                    recognizer.acceptWaveform(event.inputBuffer)
+                } catch (error) {
+                    console.error('acceptWaveform failed', error)
+                }
+            }
+            const source = audioContext.createMediaStreamSource(mediaStream);
+            source.connect(recognizerNode);
+        }
+
+        window.onload = init;
+    </script>
+
+    <script src="scripts.js"></script>
+    <script src="text-to-speech.js"></script>
+    <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/vosk-browser@0.0.5/dist/vosk.js"></script>
+</body>
+</html>
